@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: const Text(
-          'Suivi scolaire',
+          'Suivi Scolaire',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
