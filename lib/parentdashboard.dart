@@ -92,7 +92,7 @@ class _ParentdashboardState extends State<Parentdashboard> {
           title: 'Sciences',
           subtitle: 'Recherche sur les plantes',
           detail: 'Pour vendredi',
-          color: Colors.green,
+          color: Colors.blueAccent,
           icon: Icons.science,
         ),
       ],
@@ -107,14 +107,14 @@ class _ParentdashboardState extends State<Parentdashboard> {
           subject: 'Mathematiques',
           note: '18/20',
           appreciation: 'Excellent',
-          color: Colors.blue,
+          color: Colors.orangeAccent,
           icon: Icons.calculate,
         ),
         NoteInfo(
           subject: 'Sciences',
           note: '16/20',
           appreciation: 'Bon travail',
-          color: Colors.green,
+          color: Colors.pinkAccent,
           icon: Icons.science,
         ),
       ],
@@ -138,7 +138,7 @@ class _ParentdashboardState extends State<Parentdashboard> {
           subject: 'Histoire',
           note: '13/20',
           appreciation: 'Peut mieux faire',
-          color: Colors.purple,
+          color: Colors.blue,
           icon: Icons.history_edu,
         ),
         NoteInfo(
@@ -186,9 +186,9 @@ class _ParentdashboardState extends State<Parentdashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F6FF),
+      backgroundColor: Colors.pink[50],
       appBar: AppBar(
-        backgroundColor: const Color(0xFF5B5FC7),
+        backgroundColor:Colors.blueAccent,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -363,7 +363,7 @@ class _ParentdashboardState extends State<Parentdashboard> {
         child: StartCard(
           title: 'Comportement',
           value: selectedStudent.behavior,
-          color: Colors.greenAccent,
+          color: Colors.pink,
           icon: Icons.emoji_people,
         ),
       ),
@@ -375,7 +375,7 @@ const SizedBox(height: 24),
         PageHeaderCard(
           title: "Suivi ${selectedStudent.name}",
           subtitle: "Dernieres informations scolaires",
-          color: Colors.indigo,
+          color: Colors.blueAccent,
           icon: Icons.person,
         ),
         const SizedBox(height: 16),
@@ -420,16 +420,16 @@ class NotesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F6FF),
+      backgroundColor: Colors.pink[50],
       appBar: AppBar(
-        backgroundColor: const Color(0xFF5B5FC7),
+        backgroundColor: Colors.lightBlueAccent,
         title: const Text('Notes'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: const [
           Card(
-            color: Color(0xFF5B5FC7),
+            color: Colors.pinkAccent,
             elevation: 4,
             child: Padding(
               padding: EdgeInsets.all(18.0),
@@ -438,7 +438,7 @@ class NotesPage extends StatelessWidget {
                 children: [
                   Text(
                     'Moyenne générale',
-                    style: TextStyle(fontSize: 16, color: Colors.white70),
+                    style: TextStyle(fontSize: 16, color: Colors.blue),
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -446,13 +446,13 @@ class NotesPage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 34,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Color(0xFFFCE4EC),),
                     ),
-                  ),
+                  SizedBox(height: 12),
                   SizedBox(height: 6),
                   Text(
                     'Très bon travail, continue comme ça.',
-                    style: TextStyle(fontSize: 14, color: Colors.white),
+                    style: TextStyle(fontSize: 14, color: Colors.blue),
                   ),
                 ],
               ),
@@ -648,7 +648,7 @@ class CalendrierContent extends StatelessWidget {
         PageHeaderCard(
           title: 'Calendrier',
           subtitle: 'Evenements importants a venir',
-          color: Colors.green,
+          color: Colors.orange,
           icon: Icons.calendar_month,
         ),
         SizedBox(height: 16),
@@ -657,7 +657,7 @@ class CalendrierContent extends StatelessWidget {
           subtitle: 'Rencontre avec les enseignants',
           detail: '20 mai',
           icon: Icons.groups,
-          color: Colors.green,
+          color: Colors.blueAccent,
         ),
         SimpleInfoCard(
           title: 'Controle de sciences',
@@ -879,7 +879,7 @@ class StartCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (icon != null) Icon(icon, color: Colors.white, size: 28),
+              if (icon != null) Icon(icon, color: Colors.blue, size: 28),
               const SizedBox(height: 8),
               Text(title,
                   textAlign: TextAlign.center,

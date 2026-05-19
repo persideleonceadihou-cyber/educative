@@ -32,6 +32,8 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+.netlify-npm-cache/
+.npm-cache/
 
 # Symbolication related
 app.*.symbols

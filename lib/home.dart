@@ -8,21 +8,17 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FF),
+      backgroundColor: Colors.pink[50],
       appBar: AppBar(
-        backgroundColor: const Color(0xFF5B5FC7),
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          'Suivi scolaire',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: const Text(''),
       ),
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFF5F7FF), Color(0xFFE8EDFF)],
+            colors: [Color(0xFFFFE5E5), Color(0xFFFFC1C1)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -32,7 +28,18 @@ class Home extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.school, size: 80, color: Color(0xFF5B5FC7)),
+              Image.asset(
+                'assets/images/image35.png',
+                height: 100,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(
+                    Icons.school,
+                    size: 80,
+                    color: Color(0xFF5B5FC7),
+                  );
+                },
+              ),
               const SizedBox(height: 20),
               const Text(
                 'Bienvenue sur le suivi scolaire',
@@ -59,7 +66,7 @@ class Home extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF5B5FC7),
+                    backgroundColor: Colors.orange[200],
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
@@ -71,7 +78,7 @@ class Home extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => const Parentdashboard()),
                     );
                   },
-                  icon: const Icon(Icons.family_restroom, color: Colors.white),
+                  icon: const Icon(Icons.family_restroom, color:  Color(0xFF2C2F63),),
                   label: const Text(
                     'Espace Parent',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -85,7 +92,7 @@ class Home extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF7C83E6),
+                    backgroundColor: Colors.orange[200],
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
@@ -97,7 +104,7 @@ class Home extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => const Pageecole()),
                     );
                   },
-                  icon: const Icon(Icons.apartment, color: Colors.white),
+                  icon: const Icon(Icons.school, color: Color(0xFFFCE4EC)),
                   label: const Text(
                     'Espace École',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),

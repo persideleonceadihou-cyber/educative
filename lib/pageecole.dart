@@ -13,6 +13,8 @@ class Pageecole extends StatefulWidget {
 class _PageecoleState extends State<Pageecole> {
   int _selectedIndex = 0;
 
+  List<String> _schoolClasses = const ['6eme', '5eme', '4eme'];
+
   List<SchoolStudent> _students = const [
     SchoolStudent(
       name: 'Thomas Dupont',
@@ -60,8 +62,13 @@ class _PageecoleState extends State<Pageecole> {
 
   int get _absenceCount => _students.length - _presentCount;
 
-  Set<String> get _classes =>
-      _students.map((student) => student.schoolClass).toSet();
+  List<String> get _classes {
+    final classes = <String>{..._schoolClasses};
+    for (final student in _students) {
+      classes.add(student.schoolClass);
+    }
+    return classes.toList()..sort();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,12 +138,31 @@ class _PageecoleState extends State<Pageecole> {
   void _addStudent(SchoolStudent student) {
     setState(() {
       _students = [..._students, student];
+      if (!_schoolClasses.contains(student.schoolClass)) {
+        _schoolClasses = [..._schoolClasses, student.schoolClass]..sort();
+      }
+    });
+  }
+
+  void _addClass(String schoolClass) {
+    final normalizedClass = schoolClass.trim();
+    if (normalizedClass.isEmpty || _classes.contains(normalizedClass)) {
+      return;
+    }
+
+    setState(() {
+      _schoolClasses = [..._schoolClasses, normalizedClass]..sort();
     });
   }
 
   Widget _buildBody() {
     if (_selectedIndex == 1) {
-      return ListeElevesPage(students: _students, onAddStudent: _addStudent);
+      return ListeElevesPage(
+        students: _students,
+        classes: _classes,
+        onAddStudent: _addStudent,
+        onAddClass: _addClass,
+      );
     }
     if (_selectedIndex == 2) {
       return NotesEcolePage(students: _students, onAddGrade: _addGrade);
@@ -146,7 +172,7 @@ class _PageecoleState extends State<Pageecole> {
     }
     return AccueilEcolePage(
       students: _students,
-      classCount: _classes.length,
+      classes: _classes,
       absenceCount: _absenceCount,
       onOpenPage: _openPage,
     );
@@ -157,13 +183,13 @@ class AccueilEcolePage extends StatelessWidget {
   const AccueilEcolePage({
     super.key,
     required this.students,
-    required this.classCount,
+    required this.classes,
     required this.absenceCount,
     required this.onOpenPage,
   });
 
   final List<SchoolStudent> students;
-  final int classCount;
+  final List<String> classes;
   final int absenceCount;
   final ValueChanged<int> onOpenPage;
 
@@ -203,8 +229,8 @@ class AccueilEcolePage extends StatelessWidget {
               const SizedBox(width: 16),
               StartCard(
                 title: 'Classes',
-                value: '$classCount',
-                color: Colors.green,
+                value: '${classes.length}',
+                color: Colors.blue,
                 icon: Icons.class_,
                 onTap: () => onOpenPage(1),
               ),
@@ -227,12 +253,29 @@ class AccueilEcolePage extends StatelessWidget {
   }
 
   List<Widget> _classCards() {
-    final classes = <String, int>{};
+    final studentCountByClass = <String, int>{};
+    for (final schoolClass in classes) {
+      studentCountByClass[schoolClass] = 0;
+    }
     for (final student in students) {
-      classes[student.schoolClass] = (classes[student.schoolClass] ?? 0) + 1;
+      studentCountByClass[student.schoolClass] =
+          (studentCountByClass[student.schoolClass] ?? 0) + 1;
     }
 
-    return classes.entries.map((entry) {
+    if (studentCountByClass.isEmpty) {
+      return [
+        EcoleInfoCard(
+          title: 'Aucune classe',
+          subtitle: 'Ajoutez une classe depuis la page Eleves',
+          detail: 'Ajouter',
+          icon: Icons.class_,
+          color: Colors.orangeAccent,
+          onTap: () => onOpenPage(1),
+        ),
+      ];
+    }
+
+    return studentCountByClass.entries.map((entry) {
       return EcoleInfoCard(
         title: entry.key,
         subtitle: '${entry.value} eleve${entry.value > 1 ? 's' : ''}',
@@ -614,7 +657,7 @@ class PresencesPage extends StatelessWidget {
         EcoleHeaderCard(
           title: 'Presences',
           subtitle: '$presentCount presents, $absenceCount absents',
-          color: Colors.green,
+          color: Colors.lightBlueAccent,
           icon: Icons.event_available,
         ),
         const SizedBox(height: 16),
@@ -624,7 +667,7 @@ class PresencesPage extends StatelessWidget {
             subtitle: 'Classe ${student.schoolClass}',
             detail: student.isPresent ? 'Present' : 'Absent',
             icon: student.isPresent ? Icons.check_circle : Icons.warning,
-            color: student.isPresent ? Colors.green : Colors.red,
+            color: student.isPresent ? Colors.lightBlueAccent : Colors.red,
           ),
         ),
       ],

@@ -7,11 +7,14 @@ class ListeElevesPage extends StatefulWidget {
     super.key,
     required this.students,
     required this.onAddStudent,
+    required this.onAddClass,
+    required this.classes,
   });
 
   final List<SchoolStudent> students;
   final ValueChanged<SchoolStudent> onAddStudent;
-
+  final ValueChanged<String> onAddClass;
+  final List<String> classes;
   @override
   State<ListeElevesPage> createState() => _ListeElevesPageState();
 }
@@ -21,6 +24,9 @@ class _ListeElevesPageState extends State<ListeElevesPage> {
 
   Map<String, List<SchoolStudent>> get _studentsByClass {
     final classes = <String, List<SchoolStudent>>{};
+    for (final schoolClass in widget.classes) {
+      classes.putIfAbsent(schoolClass, () => []);
+    }
     for (final student in widget.students) {
       classes.putIfAbsent(student.schoolClass, () => []).add(student);
     }
@@ -42,12 +48,22 @@ class _ListeElevesPageState extends State<ListeElevesPage> {
         _HeaderCard(
           title: 'Liste des classes',
           subtitle: '${classes.length} classes disponibles',
-          color: Colors.indigo,
+          color: Colors.blueAccent  ,
           icon: Icons.class_,
-          action: IconButton(
-            tooltip: 'Ajouter un eleve',
-            onPressed: () => _showAddStudentDialog(context),
-            icon: const Icon(Icons.person_add, color: Colors.white),
+          action: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                tooltip: 'Ajouter une classe',
+                onPressed: () => _showAddClassDialog(context),
+                icon: const Icon(Icons.add_business, color: Colors.white),
+              ),
+              IconButton(
+                tooltip: 'Ajouter un eleve',
+                onPressed: () => _showAddStudentDialog(context),
+                icon: const Icon(Icons.person_add, color: Colors.white),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 16),
@@ -59,7 +75,23 @@ class _ListeElevesPageState extends State<ListeElevesPage> {
             label: const Text('Ajouter un eleve'),
           ),
         ),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: () => _showAddClassDialog(context),
+            icon: const Icon(Icons.class_),
+            label: const Text('Ajouter une classe'),
+          ),
+        ),
         const SizedBox(height: 16),
+        if (classes.isEmpty)
+          const _InfoCard(
+            title: 'Aucune classe',
+            subtitle: 'Ajoutez une classe pour commencer',
+            detail: 'Vide',
+            icon: Icons.info,
+            color: Colors.orangeAccent,
+          ),
         ...classes.map(
           (entry) => _InfoCard(
             title: 'Classe ${entry.key}',
@@ -67,7 +99,7 @@ class _ListeElevesPageState extends State<ListeElevesPage> {
                 '${entry.value.length} eleve${entry.value.length > 1 ? 's' : ''}',
             detail: 'Ouvrir',
             icon: Icons.class_,
-            color: Colors.indigo,
+            color: Colors.blueAccent,
             onTap: () {
               setState(() {
                 _selectedClass = entry.key;
@@ -89,7 +121,7 @@ class _ListeElevesPageState extends State<ListeElevesPage> {
           title: 'Classe $schoolClass',
           subtitle:
               '${classStudents.length} eleve${classStudents.length > 1 ? 's' : ''}',
-          color: Colors.indigo,
+          color: Colors.blueAccent,
           icon: Icons.people,
           action: Row(
             mainAxisSize: MainAxisSize.min,
@@ -127,6 +159,14 @@ class _ListeElevesPageState extends State<ListeElevesPage> {
           ),
         ),
         const SizedBox(height: 16),
+        if (classStudents.isEmpty)
+          const _InfoCard(
+            title: 'Aucun eleve',
+            subtitle: 'Ajoutez un eleve dans cette classe',
+            detail: 'Vide',
+            icon: Icons.info,
+            color: Colors.orangeAccent,
+          ),
         ...classStudents.map(
           (student) => _InfoCard(
             title: student.name,
@@ -135,7 +175,7 @@ class _ListeElevesPageState extends State<ListeElevesPage> {
                 ? 'Moy. ${_formatGrade(student.average)}'
                 : 'Sans note',
             icon: Icons.person,
-            color: student.isPresent ? Colors.green : Colors.red,
+            color: student.isPresent ? Colors.blueAccent : Colors.red,
           ),
         ),
       ],
@@ -219,6 +259,7 @@ class _ListeElevesPageState extends State<ListeElevesPage> {
                       grades: const [],
                     );
 
+                    widget.onAddClass(student.schoolClass);
                     widget.onAddStudent(student);
                     setState(() {
                       _selectedClass = student.schoolClass;
@@ -237,6 +278,59 @@ class _ListeElevesPageState extends State<ListeElevesPage> {
       classController.dispose();
     });
   }
+
+  Future<void> _showAddClassDialog(BuildContext context) async {
+    final formKey = GlobalKey<FormState>();
+    final controller = TextEditingController();
+
+    final className = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+        title: const Text('Nouvelle classe'),
+        content: Form(
+          key: formKey,
+          child: TextFormField(
+            controller: controller,
+            decoration: const InputDecoration(
+              labelText: 'Nom de la classe',
+              border: OutlineInputBorder(),
+            ),
+            validator: (value) {
+              final name = value?.trim() ?? '';
+              if (name.isEmpty) return 'Entrez le nom de la classe.';
+              if (widget.classes.contains(name)) return 'Classe déjà existante.';
+              return null;
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Annuler'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (!formKey.currentState!.validate()) return;
+              Navigator.pop(dialogContext, controller.text.trim());
+            },
+            child: const Text('Ajouter'),
+          ),
+        ],
+      );
+      },
+    );
+
+    controller.dispose();
+    if (className == null) return;
+
+    if (!mounted) return;
+    widget.onAddClass(className);
+    setState(() {
+      _selectedClass = className;
+    });
+  }
+
 }
 
 class _HeaderCard extends StatelessWidget {
