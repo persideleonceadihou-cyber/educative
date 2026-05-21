@@ -96,7 +96,7 @@ class _PageecoleState extends State<Pageecole> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: const Color(0xFF5B5FC7),
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: Colors.orange[100],
         type: BottomNavigationBarType.fixed,
         onTap: _changePage,
         items: const [
@@ -230,7 +230,7 @@ class AccueilEcolePage extends StatelessWidget {
               StartCard(
                 title: 'Classes',
                 value: '${classes.length}',
-                color: Colors.blue,
+                color: Colors.orange,
                 icon: Icons.class_,
                 onTap: () => onOpenPage(1),
               ),
@@ -243,7 +243,7 @@ class AccueilEcolePage extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF2C2F63),
+            color: Colors.pinkAccent,
           ),
         ),
         const SizedBox(height: 12),
@@ -281,7 +281,7 @@ class AccueilEcolePage extends StatelessWidget {
         subtitle: '${entry.value} eleve${entry.value > 1 ? 's' : ''}',
         detail: 'Voir',
         icon: Icons.class_,
-        color: Colors.indigo,
+        color: Colors.lightBlueAccent,
         onTap: () => onOpenPage(1),
       );
     }).toList();
@@ -306,7 +306,7 @@ class NotesEcolePage extends StatelessWidget {
         EcoleHeaderCard(
           title: 'Notes',
           subtitle: 'Notes par matiere et moyenne generale',
-          color: Colors.blue,
+          color: Colors.pinkAccent,
           icon: Icons.edit,
           action: IconButton(
             tooltip: 'Ajouter une note',
@@ -334,15 +334,15 @@ class NotesEcolePage extends StatelessWidget {
             subtitle: 'Ajoutez d abord un eleve dans la page Eleves',
             detail: 'Vide',
             icon: Icons.info,
-            color: Colors.grey,
+            color: Colors.pinkAccent,
           ),
         ...students.asMap().entries.map(
-              (entry) => StudentGradeCard(
-                studentIndex: entry.key,
-                student: entry.value,
-                onAddGrade: onAddGrade,
-              ),
-            ),
+          (entry) => StudentGradeCard(
+            studentIndex: entry.key,
+            student: entry.value,
+            onAddGrade: onAddGrade,
+          ),
+        ),
       ],
     );
   }
@@ -657,7 +657,7 @@ class PresencesPage extends StatelessWidget {
         EcoleHeaderCard(
           title: 'Presences',
           subtitle: '$presentCount presents, $absenceCount absents',
-          color: Colors.lightBlueAccent,
+          color: Colors.orange,
           icon: Icons.event_available,
         ),
         const SizedBox(height: 16),
@@ -667,7 +667,7 @@ class PresencesPage extends StatelessWidget {
             subtitle: 'Classe ${student.schoolClass}',
             detail: student.isPresent ? 'Present' : 'Absent',
             icon: student.isPresent ? Icons.check_circle : Icons.warning,
-            color: student.isPresent ? Colors.lightBlueAccent : Colors.red,
+            color: student.isPresent ? Colors.pinkAccent : Colors.red,
           ),
         ),
       ],
@@ -700,7 +700,7 @@ class EcoleHeaderCard extends StatelessWidget {
         padding: const EdgeInsets.all(18.0),
         child: Row(
           children: [
-            Icon(icon, color: Colors.white, size: 36),
+            Icon(icon, color: Colors.lightBlue, size: 36),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -759,10 +759,7 @@ class EcoleInfoCard extends StatelessWidget {
           backgroundColor: color.withAlpha(46),
           child: Icon(icon, color: color),
         ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(subtitle),
         trailing: Text(
           detail,

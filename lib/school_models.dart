@@ -1,8 +1,5 @@
 class SchoolGrade {
-  const SchoolGrade({
-    required this.subject,
-    required this.value,
-  });
+  const SchoolGrade({required this.subject, required this.value});
 
   final String subject;
   final double value;

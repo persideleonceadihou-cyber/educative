@@ -9,11 +9,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.pink[50],
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(''),
-      ),
+      appBar: AppBar(elevation: 0, centerTitle: true, title: const Text('')),
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -54,10 +50,7 @@ class Home extends StatelessWidget {
               const Text(
                 'Suivez les performances des élèves, consultez les notes, gérez les absences et restez informé.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF5E6286),
-                ),
+                style: TextStyle(fontSize: 16, color: Color(0xFF5E6286)),
               ),
               const SizedBox(height: 40),
 
@@ -75,10 +68,15 @@ class Home extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Parentdashboard()),
+                      MaterialPageRoute(
+                        builder: (context) => const Parentdashboard(),
+                      ),
                     );
                   },
-                  icon: const Icon(Icons.family_restroom, color:  Color(0xFF2C2F63),),
+                  icon: const Icon(
+                    Icons.family_restroom,
+                    color: Colors.lightBlue,
+                  ),
                   label: const Text(
                     'Espace Parent',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -101,10 +99,12 @@ class Home extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Pageecole()),
+                      MaterialPageRoute(
+                        builder: (context) => const Pageecole(),
+                      ),
                     );
                   },
-                  icon: const Icon(Icons.school, color: Color(0xFFFCE4EC)),
+                  icon: const Icon(Icons.school, color: Colors.lightBlue),
                   label: const Text(
                     'Espace École',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
