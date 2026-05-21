@@ -596,7 +596,7 @@ class DevoirsContent extends StatelessWidget {
           subtitle: 'Preparer une recherche sur les plantes',
           detail: 'Pour vendredi',
           icon: Icons.science,
-          color: Colors.green,
+          color: Colors.pinkAccent,
         ),
       ],
     );

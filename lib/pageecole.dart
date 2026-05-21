@@ -75,7 +75,7 @@ class _PageecoleState extends State<Pageecole> {
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6FF),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF5B5FC7),
+        backgroundColor: Colors.blueAccent,
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
