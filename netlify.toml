@@ -4,7 +4,7 @@
     export PATH="$PATH:/opt/buildhome/flutter/bin"
     flutter config --enable-web
     flutter pub get
-    flutter build web --debug --no-wasm-dry-run
+    flutter build web --release --no-wasm-dry-run --no-tree-shake-icons
   """
   publish = "build/web"
 
