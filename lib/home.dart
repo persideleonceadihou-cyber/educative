@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pageecole.dart';
-import 'parentdashboard.dart';
+import 'connect.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -69,7 +68,7 @@ class Home extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Parentdashboard(),
+                        builder: (context) => const ConnectPage(isParent: true),
                       ),
                     );
                   },
@@ -100,7 +99,7 @@ class Home extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Pageecole(),
+                        builder: (context) => const ConnectPage(),
                       ),
                     );
                   },

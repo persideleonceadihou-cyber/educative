@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'parentdashboard.dart';
 import 'connect.dart';
 
 void main() {
@@ -36,10 +35,10 @@ class MyApp extends StatelessWidget {
       ),
       home: const Home(),
       routes: {
-        '/parentdashboard': (context) => const Parentdashboard(),
+        '/parentdashboard': (context) => const ConnectPage(),
+        '/pageecole': (context) => const ConnectPage(),
         '/connect': (context) => const ConnectPage(),
       },
     );
   }
 }
-

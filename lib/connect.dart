@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'parentdashboard.dart';
+import 'pageecole.dart';
 
 class ConnectPage extends StatefulWidget {
-  const ConnectPage({super.key});
+  const ConnectPage({super.key, this.isParent = false});
+
+  final bool isParent;
 
   @override
   State<ConnectPage> createState() => _ConnectPageState();
@@ -11,12 +13,14 @@ class ConnectPage extends StatefulWidget {
 class _ConnectPageState extends State<ConnectPage> {
   final _formKey = GlobalKey<FormState>();
   bool _isLogin = true;
+  final TextEditingController _schoolNameController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
+    _schoolNameController.dispose();
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -37,18 +41,12 @@ class _ConnectPageState extends State<ConnectPage> {
     if (_isLogin) {
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => Parentdashboard(
-            userName: _emailController.text.contains('@')
-                ? _emailController.text.split('@').first
-                : 'Utilisateur',
-          ),
-        ),
+        MaterialPageRoute(builder: (context) => const Pageecole()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Inscription réussie ! Veuillez vous connecter.'),
+          content: Text('Inscription reussie ! Veuillez vous connecter.'),
         ),
       );
       setState(() {
@@ -84,7 +82,7 @@ class _ConnectPageState extends State<ConnectPage> {
                     Text(
                       _isLogin
                           ? 'Connectez-vous pour continuer'
-                          : 'Créez votre compte',
+                          : 'Creez votre compte',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -92,9 +90,31 @@ class _ConnectPageState extends State<ConnectPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    TextFormField(
+                      controller: _schoolNameController,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: InputDecoration(
+                        labelText: widget.isParent
+                            ? 'Nom complet'
+                            : 'Nom de l\'ecole',
+                        filled: true,
+                        fillColor: const Color(0xFFF4F5FF),
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return widget.isParent
+                              ? 'Veuillez entrer votre nom.'
+                              : 'Veuillez entrer le nom de l\'ecole.';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
                     if (!_isLogin) ...[
                       TextFormField(
                         controller: _nameController,
+                        textCapitalization: TextCapitalization.words,
                         decoration: const InputDecoration(
                           labelText: 'Nom complet',
                           filled: true,
@@ -146,7 +166,7 @@ class _ConnectPageState extends State<ConnectPage> {
                           return 'Veuillez entrer votre mot de passe.';
                         }
                         if (value.length < 6) {
-                          return 'Le mot de passe doit contenir au moins 6 caractères.';
+                          return 'Le mot de passe doit contenir au moins 6 caracteres.';
                         }
                         return null;
                       },
@@ -178,7 +198,7 @@ class _ConnectPageState extends State<ConnectPage> {
                       child: Text(
                         _isLogin
                             ? 'Pas encore de compte ? Inscrivez-vous'
-                            : 'Vous avez déjà un compte ? Connectez-vous',
+                            : 'Vous avez deja un compte ? Connectez-vous',
                         style: const TextStyle(color: Color(0xFF5B5FC7)),
                       ),
                     ),
